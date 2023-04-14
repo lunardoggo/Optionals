@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Lunardoggo.Optionals
+namespace LunarDoggo.Optionals
 {
     internal class OptionalException<T> : IOptional<T>
     {

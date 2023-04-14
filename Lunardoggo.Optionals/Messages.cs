@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Lunardoggo.Optionals
+namespace LunarDoggo.Optionals
 {
     internal class Messages
     {

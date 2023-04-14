@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Lunardoggo.Optionals
+namespace LunarDoggo.Optionals
 {
     public static class Optional
     {

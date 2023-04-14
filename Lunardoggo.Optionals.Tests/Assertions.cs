@@ -1,4 +1,4 @@
-﻿namespace Lunardoggo.Optionals.Tests
+﻿namespace LunarDoggo.Optionals.Tests
 {
     public static class Assertions
     {
