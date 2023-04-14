@@ -23,6 +23,8 @@
             IOptional<int> mapped = optional.Map(_value => Int32.Parse(_value));
 
             Assertions.AssertOptionalException(mapped, exception.GetType());
+            Assert.Throws<ArgumentNullException>(() => optional.Map<string>(null));
+            Assert.Throws<ArgumentNullException>(() => optional.SafeMap<string, Exception>(null));
         }
 
         [Fact]
@@ -33,6 +35,8 @@
             IOptional<int> mapped = optional.Map(_value => _value % 10);
 
             Assertions.AssertOptionalException(mapped, exception.GetType());
+            Assert.Throws<ArgumentNullException>(() => optional.FlatMap<string>(null));
+            Assert.Throws<ArgumentNullException>(() => optional.SafeFlatMap<string, Exception>(null));
         }
     }
 }

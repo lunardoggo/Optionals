@@ -19,6 +19,8 @@
 
             Assertions.AssertOptionalValue(mapped, 123);
             Assert.Throws<FormatException>(() => optional.Map(_value => _value + "!").Map(_value => Int32.Parse(_value)));
+            Assert.Throws<ArgumentNullException>(() => optional.Map<string>(null));
+            Assert.Throws<ArgumentNullException>(() => optional.SafeMap<string, Exception>(null));
 
             IOptional<int> mappedException = optional.Map(_value => _value + "!").SafeMap<int, FormatException>(_value => Int32.Parse(_value));
             Assertions.AssertOptionalException(mappedException, typeof(FormatException));
@@ -31,10 +33,12 @@
             IOptional<int> mapped = optional.Map(_value => _value % 10);
 
             Assertions.AssertOptionalValue(mapped, 3);
-            Assert.Throws<ArithmeticException>(() => optional.FlatMap(_value => Optional.OfValue(_value / 0)));
+            Assert.Throws<DivideByZeroException>(() => optional.FlatMap(_value => Optional.OfValue(_value / 0)));
+            Assert.Throws<ArgumentNullException>(() => optional.FlatMap<string>(null));
+            Assert.Throws<ArgumentNullException>(() => optional.SafeFlatMap<string, Exception>(null));
 
-            IOptional<int> mappedException = optional.SafeFlatMap<int, ArithmeticException>(_value => Optional.OfValue(_value / 0));
-            Assertions.AssertOptionalException(mappedException, typeof(ArithmeticException));
+            IOptional<int> mappedException = optional.SafeFlatMap<int, DivideByZeroException>(_value => Optional.OfValue(_value / 0));
+            Assertions.AssertOptionalException(mappedException, typeof(DivideByZeroException));
         }
     }
 }

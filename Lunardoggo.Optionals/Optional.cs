@@ -12,6 +12,11 @@ namespace Lunardoggo.Optionals
         /// <returns><see cref="IOptional{T}"/> containing the provided value</returns>
         public static IOptional<T> OfValue<T>(T value)
         {
+            if(value == null)
+            {
+                throw new ArgumentNullException(Messages.ValueNull);
+            }
+
             return new OptionalValue<T>(value);
         }
 
@@ -23,6 +28,11 @@ namespace Lunardoggo.Optionals
         /// <returns><see cref="IOptional{T}"/> containing the provided value</returns>
         public static IOptional<T> OfMessage<T>(string message)
         {
+            if (String.IsNullOrEmpty(message))
+            {
+                throw new ArgumentNullException(Messages.MessageNullOrEmpty);
+            }
+
             return new OptionalMessage<T>(message);
         }
 
@@ -35,6 +45,11 @@ namespace Lunardoggo.Optionals
         /// <returns><see cref="IOptional{T}"/> containing the provided <see cref="Exception"/></returns>
         public static IOptional<T> OfException<T>(Exception exception)
         {
+            if (exception == null)
+            {
+                throw new ArgumentNullException(Messages.ExceptionNull);
+            }
+
             return Optional.OfException<T>(exception, exception.Message);
         }
 
@@ -47,6 +62,11 @@ namespace Lunardoggo.Optionals
         /// <returns><see cref="IOptional{T}"/> containing the provided <see cref="Exception"/> and message</returns>
         public static IOptional<T> OfException<T>(Exception exception, string customMessage)
         {
+            if (exception == null || String.IsNullOrEmpty(customMessage))
+            {
+                throw new ArgumentNullException(Messages.ExceptionAndMessageNullOrEmpty);
+            }
+
             return new OptionalException<T>(exception, customMessage);
         }
     }
