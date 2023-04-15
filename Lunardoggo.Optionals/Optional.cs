@@ -3,6 +3,7 @@ using System;
 using System.Linq;
 using System.Text;
 using System.Runtime.CompilerServices;
+using static System.Collections.Specialized.BitVector32;
 
 namespace LunarDoggo.Optionals
 {
@@ -16,7 +17,7 @@ namespace LunarDoggo.Optionals
         /// <returns><see cref="IOptional{T}"/> containing the provided value</returns>
         public static IOptional<T> OfValue<T>(T value)
         {
-            if(value == null)
+            if (value == null)
             {
                 throw new ArgumentNullException(Messages.ValueNull);
             }
@@ -85,23 +86,23 @@ namespace LunarDoggo.Optionals
         /// <exception cref="ArgumentException"></exception>
         public static IOptional<IEnumerable<T>> OfOptionals<S, T>(IEnumerable<S> optionals) where S : IOptional<T>
         {
-            if(optionals == null)
+            if (optionals == null)
             {
                 throw new ArgumentNullException(Messages.FromCollectionNullOrEmpty);
             }
-            if(!optionals.Any())
+            if (!optionals.Any())
             {
                 throw new ArgumentException(Messages.FromCollectionNullOrEmpty);
             }
 
             S[] withException = optionals.Where(_optional => _optional.HasException).ToArray();
-            if(withException.Length > 0)
+            if (withException.Length > 0)
             {
                 return Optional.OfException<IEnumerable<T>>(new AggregatedException(withException.Select(_optional => _optional.Exception)), Optional.GetAggregatedMessage<S, T>(withException));
             }
 
             S[] withMessage = optionals.Where(_optional => _optional.HasMessage).ToArray();
-            if(withMessage.Length > 0)
+            if (withMessage.Length > 0)
             {
                 return Optional.OfMessage<IEnumerable<T>>(Optional.GetAggregatedMessage<S, T>(withMessage));
             }
@@ -124,7 +125,16 @@ namespace LunarDoggo.Optionals
         /// <returns><see cref="IOptional{T}">IOptional&lt;IEnumerable&lt;T&gt;&gt;</see> containing only the values of the original optional that match the provided filter</returns>
         public static IOptional<IEnumerable<T>> Filter<T>(this IOptional<IEnumerable<T>> optional, Func<T, bool> filter)
         {
-            throw new NotImplementedException();
+            if (optional == null)
+            {
+                throw new ArgumentNullException(Messages.ExtensionMethodTargetNull);
+            }
+            if (filter == null)
+            {
+                throw new ArgumentNullException(Messages.FilterFunctionNull);
+            }
+
+            return optional.Map(_value => (IEnumerable<T>)_value.Where(_item => filter.Invoke(_item)).ToArray());
         }
 
         /// <summary>
@@ -137,21 +147,72 @@ namespace LunarDoggo.Optionals
         /// <returns>the optional ForEach was called on</returns>
         public static IOptional<S> ForEach<S, T>(this IOptional<S> optional, Action<T> action) where S : IEnumerable<T>
         {
-            throw new NotImplementedException();
+            if (optional == null)
+            {
+                throw new ArgumentNullException(Messages.ExtensionMethodTargetNull);
+            }
+            if(action == null)
+            {
+                throw new ArgumentNullException(Messages.ApplyActionNull);
+            }
+
+            return optional.Map(_value =>
+            {
+                foreach (T item in _value)
+                {
+                    action.Invoke(item);
+                }
+                return _value;
+            });
         }
 
 
         /// <summary>
         /// Converts the collection contained in this <see cref="IOptional{T}"/> from a collection of type <typeparamref name="T"/> to a collection of type <typeparamref name="S"/>
+        /// using the provided converter function
         /// </summary>
         /// <typeparam name="S">target collection type</typeparam>
         /// <typeparam name="T">original collection type</typeparam>
         /// <typeparam name="V">item type</typeparam>
         /// <param name="optional">optional to be converted</param>
-        /// <returns>converted optional</returns>
-        public static IOptional<S> Convert<T, S, V>(this IOptional<T> optional) where S : IEnumerable<V> where T : IEnumerable<V>
+        /// <returns>optional containing the converted collection</returns>
+        public static IOptional<S> Convert<T, S, V>(this IOptional<T> optional, Func<T, S> converter) where S : IEnumerable<V> where T : IEnumerable<V>
         {
-            throw new NotImplementedException();
+            if (optional == null)
+            {
+                throw new ArgumentNullException(Messages.ExtensionMethodTargetNull);
+            }
+            if (converter == null)
+            {
+                throw new ArgumentNullException(Messages.ConverterFunctionNull);
+            }
+
+            return optional.Map(_value => converter(_value));
+        }
+
+        /// <summary>
+        /// Casts the collection contained in this <see cref="IOptional{T}"/> from a collection of type <typeparamref name="T"/> to a collection of type <typeparamref name="S"/>
+        /// </summary>
+        /// <typeparam name="S">target collection type</typeparam>
+        /// <typeparam name="T">original collection type</typeparam>
+        /// <typeparam name="V">item type</typeparam>
+        /// <param name="optional">optional to be converted</param>
+        /// <returns>optional containing the casted collection</returns>
+        public static IOptional<S> Cast<T, S, V>(this IOptional<T> optional) where S : IEnumerable<V> where T : IEnumerable<V>
+        {
+            if (optional == null)
+            {
+                throw new ArgumentNullException(Messages.ExtensionMethodTargetNull);
+            }
+
+            try
+            {
+                return optional.Map(_value => (S)(IEnumerable<V>)_value);
+            }
+            catch (InvalidCastException)
+            {
+                throw new ArgumentException(Messages.CollectionNotCastable);
+            }
         }
     }
 }

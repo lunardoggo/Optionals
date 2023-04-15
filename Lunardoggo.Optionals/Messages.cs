@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace LunarDoggo.Optionals
+﻿namespace LunarDoggo.Optionals
 {
     internal class Messages
     {
@@ -20,5 +16,10 @@ namespace LunarDoggo.Optionals
         public const string ExceptionAndMessageNullOrEmpty = "The Optional's message and Exception must not be null or empty";
 
         public const string FromCollectionNullOrEmpty = "The provided optional collection must not be null or empty";
+
+        public const string ExtensionMethodTargetNull = "The provided optional must not be null";
+        public const string ConverterFunctionNull = "The provided converter function must not be null";
+        public const string FilterFunctionNull = "The provided filter function must not be null";
+        public const string CollectionNotCastable = "The collection contained in the optional cannot be cast to the target type, use Optional.Convert instead";
     }
 }

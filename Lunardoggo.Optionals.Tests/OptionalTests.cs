@@ -75,6 +75,9 @@
             Assertions.AssertOptionalValue(filtered);
             Assert.Single(filtered.Value);
             Assert.Equal(30, filtered.Value.Single());
+
+            Assertions.AssertOptionalException(Optional.OfException<IEnumerable<int>>(new Exception("Some message")).Filter(_int => _int == 1));
+            Assertions.AssertOptionalMessage(Optional.OfMessage<IEnumerable<int>>("Some message").Filter(_int => _int == 1));
         }
 
         [Fact]
@@ -92,6 +95,9 @@
 
             Assertions.AssertOptionalValue(ints);
             Assert.DoesNotContain(ints.Value, _ref => _ref.Value != 10);
+
+            Assertions.AssertOptionalException(Optional.OfException<IntReference[]>(new Exception("Some message")).ForEach<IntReference[], IntReference>(_ref => { }));
+            Assertions.AssertOptionalMessage(Optional.OfMessage<IntReference[]>("Some message").ForEach<IntReference[], IntReference>(_ref => { }));
         }
 
         [Fact]
@@ -99,15 +105,41 @@
         {
             IOptional<int[]> ints = Optional.OfValue(new int[] { 1, 2, 3 });
 
-            Assert.Throws<ArgumentNullException>(() => Optional.Convert<int[], List<int>, int>(null));
+            Assert.Throws<ArgumentNullException>(() => Optional.Convert<int[], List<int>, int>(null, null));
+            Assert.Throws<ArgumentNullException>(() => Optional.Convert<int[], List<int>, int>(null, _value => new List<int>(_value)));
+            Assert.Throws<ArgumentNullException>(() => ints.Convert<int[], List<int>, int>(null));
 
-            IOptional<List<int>> converted = ints.Convert<int[], List<int>, int>();
-            
+            IOptional<List<int>> converted = ints.Convert<int[], List<int>, int>(_value => new List<int>(_value));
+
             Assertions.AssertOptionalValue(converted);
             Assert.Equal(3, converted.Value.Count);
             Assert.Contains(converted.Value, _item => _item == 1);
             Assert.Contains(converted.Value, _item => _item == 2);
             Assert.Contains(converted.Value, _item => _item == 3);
+
+            Assertions.AssertOptionalException(Optional.OfException<int[]>(new Exception("Some message")).Convert<int[], List<int>, int>(_value => new List<int>(_value)));
+            Assertions.AssertOptionalMessage(Optional.OfMessage<int[]>("Some message").Convert<int[], List<int>, int>(_value => new List<int>(_value)));
+        }
+
+        [Fact]
+        public void TestCast()
+        {
+            IOptional<IEnumerable<int>> ints = Optional.OfValue(new List<int>(new int[] { 1, 2, 3 }) as IEnumerable<int>);
+
+            Assert.Throws<ArgumentNullException>(() => Optional.Cast<IEnumerable<int>, List<int>, int>(null));
+
+            IOptional<List<int>> casted = ints.Cast<IEnumerable<int>, List<int>, int>();
+            
+            Assertions.AssertOptionalValue(casted);
+            Assert.Equal(3, casted.Value.Count);
+            Assert.Contains(casted.Value, _item => _item == 1);
+            Assert.Contains(casted.Value, _item => _item == 2);
+            Assert.Contains(casted.Value, _item => _item == 3);
+
+            Assert.Throws<ArgumentException>(() => Optional.OfValue(new int[] { 1 }).Cast<int[], List<int>, int>());
+
+            Assertions.AssertOptionalException(Optional.OfException<IEnumerable<int>>(new Exception("Some message")).Cast<IEnumerable<int>, List<int>, int>());
+            Assertions.AssertOptionalMessage(Optional.OfMessage<IEnumerable<int>>("Some message").Cast<IEnumerable<int>, List<int>, int>());
         }
     }
 }
