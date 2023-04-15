@@ -1,4 +1,5 @@
-﻿using System;
+﻿using System.Collections.Generic;
+using System;
 
 namespace LunarDoggo.Optionals
 {
@@ -68,6 +69,11 @@ namespace LunarDoggo.Optionals
             }
 
             return new OptionalException<T>(exception, customMessage);
+        }
+
+        public static IOptional<IEnumerable<T>> OfOptionals<S, T>(IEnumerable<S> optionals) where S : IOptional<T>
+        {
+            throw new NotImplementedException();
         }
     }
 }
