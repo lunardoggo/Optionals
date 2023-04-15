@@ -1,5 +1,8 @@
 ﻿using System.Collections.Generic;
 using System;
+using System.Linq;
+using System.Text;
+using System.Runtime.CompilerServices;
 
 namespace LunarDoggo.Optionals
 {
@@ -71,7 +74,82 @@ namespace LunarDoggo.Optionals
             return new OptionalException<T>(exception, customMessage);
         }
 
+        /// <summary>
+        /// Converts the provided optionals of type <typeparamref name="T"/> into a single optional of type <see cref="IEnumerable{T}"/>
+        /// </summary>
+        /// <typeparam name="S">original optional type</typeparam>
+        /// <typeparam name="T">type to map the optionals to</typeparam>
+        /// <param name="optionals">optionals to be mapped</param>
+        /// <returns>Single optional of type <see cref="IEnumerable{T}"</returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="ArgumentException"></exception>
         public static IOptional<IEnumerable<T>> OfOptionals<S, T>(IEnumerable<S> optionals) where S : IOptional<T>
+        {
+            if(optionals == null)
+            {
+                throw new ArgumentNullException(Messages.FromCollectionNullOrEmpty);
+            }
+            if(!optionals.Any())
+            {
+                throw new ArgumentException(Messages.FromCollectionNullOrEmpty);
+            }
+
+            S[] withException = optionals.Where(_optional => _optional.HasException).ToArray();
+            if(withException.Length > 0)
+            {
+                return Optional.OfException<IEnumerable<T>>(new AggregatedException(withException.Select(_optional => _optional.Exception)), Optional.GetAggregatedMessage<S, T>(withException));
+            }
+
+            S[] withMessage = optionals.Where(_optional => _optional.HasMessage).ToArray();
+            if(withMessage.Length > 0)
+            {
+                return Optional.OfMessage<IEnumerable<T>>(Optional.GetAggregatedMessage<S, T>(withMessage));
+            }
+
+            return Optional.OfValue(optionals.Select(_optional => _optional.Value));
+        }
+
+        private static string GetAggregatedMessage<S, T>(IEnumerable<S> optionals) where S : IOptional<T>
+        {
+            return String.Join(Environment.NewLine, optionals.Select(_optional => _optional.Message));
+        }
+
+
+        /// <summary>
+        /// Returns an <see cref="IOptional{T}">IOptional&lt;IEnumerable&lt;T&gt;&gt;</see> containing only the values of the original
+        /// optional that match the provided filter
+        /// </summary>
+        /// <param name="optional">optional to be filtered</param>
+        /// <param name="filter">filter function</param>
+        /// <returns><see cref="IOptional{T}">IOptional&lt;IEnumerable&lt;T&gt;&gt;</see> containing only the values of the original optional that match the provided filter</returns>
+        public static IOptional<IEnumerable<T>> Filter<T>(this IOptional<IEnumerable<T>> optional, Func<T, bool> filter)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Applies the provided action to all values contained in this <see cref="IOptional{S}"/>
+        /// </summary>
+        /// <typeparam name="S"></typeparam>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="optional"></param>
+        /// <param name="action"></param>
+        /// <returns>the optional ForEach was called on</returns>
+        public static IOptional<S> ForEach<S, T>(this IOptional<S> optional, Action<T> action) where S : IEnumerable<T>
+        {
+            throw new NotImplementedException();
+        }
+
+
+        /// <summary>
+        /// Converts the collection contained in this <see cref="IOptional{T}"/> from a collection of type <typeparamref name="T"/> to a collection of type <typeparamref name="S"/>
+        /// </summary>
+        /// <typeparam name="S">target collection type</typeparam>
+        /// <typeparam name="T">original collection type</typeparam>
+        /// <typeparam name="V">item type</typeparam>
+        /// <param name="optional">optional to be converted</param>
+        /// <returns>converted optional</returns>
+        public static IOptional<S> Convert<T, S, V>(this IOptional<T> optional) where S : IEnumerable<V> where T : IEnumerable<V>
         {
             throw new NotImplementedException();
         }

@@ -18,5 +18,7 @@ namespace LunarDoggo.Optionals
         public const string MessageNullOrEmpty = "The Optional's message must not be null or empty";
         public const string ExceptionNull = "The Optional's Exception must not be null";
         public const string ExceptionAndMessageNullOrEmpty = "The Optional's message and Exception must not be null or empty";
+
+        public const string FromCollectionNullOrEmpty = "The provided optional collection must not be null or empty";
     }
 }

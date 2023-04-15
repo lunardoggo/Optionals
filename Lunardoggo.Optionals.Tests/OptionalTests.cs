@@ -61,5 +61,53 @@
             Assert.Contains(321, withValues.Value);
             Assert.Contains(111, withValues.Value);
         }
+
+        [Fact]
+        public void TestFilter()
+        {
+            IOptional<IEnumerable<int>> ints = Optional.OfValue(new int[] { 1, 2, 30 } as IEnumerable<int>);
+
+            Assert.Throws<ArgumentNullException>(() => Optional.Filter<int>(null, null));
+            Assert.Throws<ArgumentNullException>(() => Optional.Filter<int>(null, _val => _val > 10));
+            Assert.Throws<ArgumentNullException>(() => ints.Filter(null));
+
+            IOptional<IEnumerable<int>> filtered = ints.Filter(_val => _val > 10);
+            Assertions.AssertOptionalValue(filtered);
+            Assert.Single(filtered.Value);
+            Assert.Equal(30, filtered.Value.Single());
+        }
+
+        [Fact]
+        public void TestForEach()
+        {
+            IOptional<IntReference[]> ints = Optional.OfValue(new IntReference[] { new IntReference(1), new IntReference(2), new IntReference(3) });
+
+            Assert.Throws<ArgumentNullException>(() => Optional.ForEach<IntReference[], IntReference>(null, null));
+            Assert.Throws<ArgumentNullException>(() => Optional.ForEach<IntReference[], IntReference>(null, _ref => _ref.Value = 10));
+            Assert.Throws<ArgumentNullException>(() => ints.ForEach<IntReference[], IntReference>(null));
+
+            Assert.DoesNotContain(ints.Value, _ref => _ref.Value == 10);
+
+            ints.ForEach<IntReference[], IntReference>(_ref => _ref.Value = 10);
+
+            Assertions.AssertOptionalValue(ints);
+            Assert.DoesNotContain(ints.Value, _ref => _ref.Value != 10);
+        }
+
+        [Fact]
+        public void TestConvert()
+        {
+            IOptional<int[]> ints = Optional.OfValue(new int[] { 1, 2, 3 });
+
+            Assert.Throws<ArgumentNullException>(() => Optional.Convert<int[], List<int>, int>(null));
+
+            IOptional<List<int>> converted = ints.Convert<int[], List<int>, int>();
+            
+            Assertions.AssertOptionalValue(converted);
+            Assert.Equal(3, converted.Value.Count);
+            Assert.Contains(converted.Value, _item => _item == 1);
+            Assert.Contains(converted.Value, _item => _item == 2);
+            Assert.Contains(converted.Value, _item => _item == 3);
+        }
     }
 }
