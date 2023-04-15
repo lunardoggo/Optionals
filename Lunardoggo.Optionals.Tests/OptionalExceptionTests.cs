@@ -38,5 +38,35 @@
             Assert.Throws<ArgumentNullException>(() => optional.FlatMap<string>(null));
             Assert.Throws<ArgumentNullException>(() => optional.SafeFlatMap<string, Exception>(null));
         }
+
+        [Fact]
+        public void TestApply()
+        {
+            const string message = "Some message";
+            IOptional<IntReference> optional = Optional.OfMessage<IntReference>(message);
+
+            Assert.Throws<ArgumentNullException>(() => optional.Apply(null));
+
+            Assertions.AssertOptionalMessage(optional, message);
+
+            optional.Apply(_ref => _ref.Value = 123);
+
+            Assertions.AssertOptionalMessage(optional, message);
+        }
+
+        [Fact]
+        public void TestToString()
+        {
+            const string message = "Some message";
+            IOptional<int> optional = Optional.OfException<int>(new ArgumentException(message));
+
+            Assert.Throws<ArgumentNullException>(() => optional.ToString(null));
+            Assert.Equal(message, optional.ToString(_value => BitConverter.ToString(new byte[] { (byte)(_value % 10) })));
+
+            optional = Optional.OfException<int>(new ArgumentException("Some argument"), message);
+
+            Assert.Throws<ArgumentNullException>(() => optional.ToString(null));
+            Assert.Equal(message, optional.ToString(_value => BitConverter.ToString(new byte[] { (byte)(_value % 10) })));
+        }
     }
 }

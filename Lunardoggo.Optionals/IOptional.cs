@@ -78,15 +78,6 @@ namespace LunarDoggo.Optionals
         IOptional<S> Map<S>(Func<T, S> mapper);
 
         /// <summary>
-        /// Executes the provided <see cref="Action{T}"/> on the contained value. Additionally Exceptions of type <typeparamref name="S"/> are
-        /// caught in the process
-        /// </summary>
-        /// <typeparam name="S">Type of <see cref="Exception"/> to be caught</typeparam>
-        /// <param name="action">Action to apply to the contained value</param>
-        /// <returns>Reference to the same <see cref="IOptional{T}"/> on which <see cref="SafeApply{S}(Action{T})"/> was called</returns>
-        IOptional<T> SafeApply<S>(Action<T> action) where S : Exception;
-
-        /// <summary>
         /// Executes the provided <see cref="Action{T}"/> on the contained value
         /// </summary>
         /// <param name="action">Action to apply to the contained value</param>

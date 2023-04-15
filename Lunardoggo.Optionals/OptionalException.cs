@@ -70,11 +70,6 @@ namespace LunarDoggo.Optionals
             throw new NotImplementedException();
         }
 
-        public IOptional<T> SafeApply<S>(Action<T> action) where S : Exception
-        {
-            throw new NotImplementedException();
-        }
-
         public string ToString(Func<T, string> valueToString)
         {
             throw new NotImplementedException();

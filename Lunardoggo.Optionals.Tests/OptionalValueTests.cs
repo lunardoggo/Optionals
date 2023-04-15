@@ -40,5 +40,34 @@
             IOptional<int> mappedException = optional.SafeFlatMap<int, DivideByZeroException>(_value => Optional.OfValue(_value / 0));
             Assertions.AssertOptionalException(mappedException, typeof(DivideByZeroException));
         }
+
+        [Fact]
+        public void TestApply()
+        {
+            const int updatedValue = 111;
+            const int value = 123;
+            IntReference reference = new IntReference(value);
+            IOptional<IntReference> optional = Optional.OfValue(reference);
+
+            Assert.Throws<ArgumentNullException>(() => optional.Apply(null));
+
+            Assertions.AssertOptionalValue(optional, reference);
+            Assert.Equal(value, reference.Value);
+
+            optional.Apply(_ref => _ref.Value = updatedValue);
+
+            Assertions.AssertOptionalValue(optional, reference);
+            Assert.Equal(updatedValue, reference.Value);
+        }
+
+        [Fact]
+        public void TestToString()
+        {
+            const int value = 123;
+            IOptional<int> optional = Optional.OfValue(value);
+
+            Assert.Throws<ArgumentNullException>(() => optional.ToString(null));
+            Assert.Equal("11", optional.ToString(_value => BitConverter.ToString(new byte[] { (byte)(_value % 10) })));
+        }
     }
 }
