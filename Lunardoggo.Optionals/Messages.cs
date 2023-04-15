@@ -10,7 +10,9 @@ namespace LunarDoggo.Optionals
         public const string OptionalNoMessage = "This Optional does not contain a message";
         public const string OptionalNoException = "This Optional does not contain an Exception";
 
+        public const string ToStringMapperNull = "The provided to string function must not be null";
         public const string MappingMapperNull = "The provided mapping function must not be null";
+        public const string ApplyActionNull = "The provided action must not be null";
 
         public const string ValueNull = "The Optional's value must not be null";
         public const string MessageNullOrEmpty = "The Optional's message must not be null or empty";

@@ -67,7 +67,7 @@
             IOptional<int> optional = Optional.OfValue(value);
 
             Assert.Throws<ArgumentNullException>(() => optional.ToString(null));
-            Assert.Equal("11", optional.ToString(_value => BitConverter.ToString(new byte[] { (byte)(_value % 10) })));
+            Assert.Equal("11", optional.ToString(_value => Convert.ToString(_value % 10, 2)));
         }
     }
 }

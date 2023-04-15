@@ -67,12 +67,20 @@ namespace LunarDoggo.Optionals
 
         public IOptional<T> Apply(Action<T> action)
         {
-            throw new NotImplementedException();
+            if (action == null)
+            {
+                throw new ArgumentNullException(Messages.ApplyActionNull);
+            }
+            return this;
         }
 
         public string ToString(Func<T, string> valueToString)
         {
-            throw new NotImplementedException();
+            if (valueToString == null)
+            {
+                throw new ArgumentNullException(Messages.ToStringMapperNull);
+            }
+            return this.message;
         }
     }
 }
