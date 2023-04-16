@@ -47,6 +47,7 @@ namespace LunarDoggo.Optionals
         /// <typeparam name="V">Type of <see cref="System.Exception"/> to be caught</typeparam>
         /// <param name="mapper">function that maps the current value into an <see cref="IOptional{T}">IOptional</see>&lt;<typeparamref name="S"/>&gt;</param>
         /// <returns>Mapped <see cref="IOptional{T}">IOptional</see>&lt;<typeparamref name="S"/>&gt;</returns>
+        /// <exception cref="ArgumentNullException"></exception>
         IOptional<S> SafeFlatMap<S, V>(Func<T, IOptional<S>> mapper) where V : Exception;
 
         /// <summary>
@@ -57,6 +58,7 @@ namespace LunarDoggo.Optionals
         /// <typeparam name="S">Target Type</typeparam>
         /// <param name="mapper">function that maps the current value into an <see cref="IOptional{T}">IOptional</see>&lt;<typeparamref name="S"/>&gt; instead of an object of type <typeparamref name="S"/></param>
         /// <returns>Mapped <see cref="IOptional{T}">IOptional</see>&lt;<typeparamref name="S"/>&gt; instead of an object of type <typeparamref name="S"/></returns>
+        /// <exception cref="ArgumentNullException"></exception>
         IOptional<S> FlatMap<S>(Func<T, IOptional<S>> mapper);
 
         /// <summary>
@@ -67,6 +69,7 @@ namespace LunarDoggo.Optionals
         /// <typeparam name="V">Type of <see cref="System.Exception"/> to be caught</typeparam>
         /// <param name="mapper">function that maps the current value into an object of type <typeparamref name="S"/></param>
         /// <returns>Mapped <see cref="IOptional{T}">IOptional</see>&lt;<typeparamref name="S"/>&gt;</returns>
+        /// <exception cref="ArgumentNullException"></exception>
         IOptional<S> SafeMap<S, V>(Func<T, S> mapper) where V : Exception;
 
         /// <summary>
@@ -75,6 +78,7 @@ namespace LunarDoggo.Optionals
         /// <typeparam name="S">Target type</typeparam>
         /// <param name="mapper">function that maps the current value into an object of type <typeparamref name="S"/></param>
         /// <returns>Mapped <see cref="IOptional{T}">IOptional</see>&lt;<typeparamref name="S"/>&gt;</returns>
+        /// <exception cref="ArgumentNullException"></exception>
         IOptional<S> Map<S>(Func<T, S> mapper);
 
         /// <summary>
@@ -82,6 +86,7 @@ namespace LunarDoggo.Optionals
         /// </summary>
         /// <param name="action">Action to apply to the contained value</param>
         /// <returns>Reference to the same <see cref="IOptional{T}"/> on which <see cref="Apply(Action{T})"/> was called</returns>
+        /// <exception cref="ArgumentNullException"></exception>
         IOptional<T> Apply(Action<T> action);
 
         /// <summary>
@@ -90,6 +95,24 @@ namespace LunarDoggo.Optionals
         /// </summary>
         /// <param name="valueToString">Function that converts the contained value into a string</param>
         /// <returns>converted string</returns>
+        /// <exception cref="ArgumentNullException"></exception>
         string ToString(Func<T, string> valueToString);
+
+        /// <summary>
+        /// If this <see cref="IOptional{T}"/> contains a value, the contained value is returned,
+        /// otherwise the return value of <paramref name="valueGetter"/> is returned
+        /// </summary>
+        /// <param name="valueGetter">Function to generate the alternative return value</param>
+        /// <returns>the contained value if present, otherwise the return value of <paramref name="valueGetter"/></returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        T OrElse(Func<T> valueGetter);
+
+        /// <summary>
+        /// If this <see cref="IOptional{T}"/> contains a value, the contained value is returned,
+        /// otherwise the provided <paramref name="value"/> is returned
+        /// </summary>
+        /// <param name="value">alternative return value</param>
+        /// <returns>the contained value if present, otherwise the provided <paramref name="value"/></returns>
+        T OrElse(T value);
     }
 }

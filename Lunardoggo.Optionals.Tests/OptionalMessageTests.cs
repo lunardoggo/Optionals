@@ -59,5 +59,15 @@
             Assert.Throws<ArgumentNullException>(() => optional.ToString(null));
             Assert.Equal(message, optional.ToString(_value => BitConverter.ToString(new byte[] { (byte)(_value % 10) })));
         }
+
+        [Fact]
+        public void TestAlternativeValues()
+        {
+            IOptional<int> optional = Optional.OfMessage<int>("Some message");
+
+            Assertions.AssertOptionalMessage(optional);
+            Assert.Equal(321, optional.OrElse(() => 321));
+            Assert.Equal(321, optional.OrElse(321));
+        }
     }
 }

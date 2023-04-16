@@ -69,5 +69,15 @@
             Assert.Throws<ArgumentNullException>(() => optional.ToString(null));
             Assert.Equal("11", optional.ToString(_value => Convert.ToString(_value % 10, 2)));
         }
+
+        [Fact]
+        public void TestAlternativeValues()
+        {
+            IOptional<int> optional = Optional.OfValue(123);
+
+            Assertions.AssertOptionalValue(optional);
+            Assert.Equal(123, optional.OrElse(() => 321));
+            Assert.Equal(123, optional.OrElse(321));
+        }
     }
 }

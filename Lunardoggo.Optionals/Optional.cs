@@ -1,9 +1,6 @@
 ﻿using System.Collections.Generic;
-using System;
 using System.Linq;
-using System.Text;
-using System.Runtime.CompilerServices;
-using static System.Collections.Specialized.BitVector32;
+using System;
 
 namespace LunarDoggo.Optionals
 {

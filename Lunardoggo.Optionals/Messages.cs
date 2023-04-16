@@ -21,5 +21,7 @@
         public const string ConverterFunctionNull = "The provided converter function must not be null";
         public const string FilterFunctionNull = "The provided filter function must not be null";
         public const string CollectionNotCastable = "The collection contained in the optional cannot be cast to the target type, use Optional.Convert instead";
+
+        public const string AlternativeValueFunctionNull = "The provided function for generating an alternative value must not be null";
     }
 }

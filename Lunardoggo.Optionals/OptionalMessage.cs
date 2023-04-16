@@ -80,5 +80,19 @@ namespace LunarDoggo.Optionals
             }
             return this.message;
         }
+
+        public T OrElse(Func<T> valueGetter)
+        {
+            if (valueGetter == null)
+            {
+                throw new ArgumentNullException(Messages.AlternativeValueFunctionNull);
+            }
+            return valueGetter.Invoke();
+        }
+
+        public T OrElse(T value)
+        {
+            return value;
+        }
     }
 }
