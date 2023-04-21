@@ -1,7 +1,44 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>netstandard2.0</TargetFramework>
+		<AssemblyName>LunarDoggo.Optionals</AssemblyName>
+		<RootNamespace>LunarDoggo.Optionals</RootNamespace>
+		<Authors>Lunar Doggo</Authors>
+		<Company>-</Company>
+		<Product>Optionals</Product>
+		<PackageTags>optionals, validation</PackageTags>
+		<PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+		<PackageLicenseFile>LICENSE</PackageLicenseFile>
+		<PackageLicenseExpression></PackageLicenseExpression>
+		<PackageProjectUrl>https://github.com/lunardoggo/Optionals</PackageProjectUrl>
+		<RepositoryUrl></RepositoryUrl>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<Copyright>Lunar Doggo</Copyright>
+		<Description>This library provides an easy way for bubbling up exceptions and error messages to calling methods using a concept similar to Java optionals but with some extensions</Description>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<PackageIcon></PackageIcon>
+		<FileVersion>1.0.0</FileVersion>
+		<VersionPrefix>1.0.0</VersionPrefix>
+		<PackageVersion>1.0.0</PackageVersion>
+		<AssemblyVersion>1.0.0</AssemblyVersion>
+		<PackageReleaseNotes>
+			This library provides optionals that can contain either a value or a message or an Exception with a message
+			- implemented API for mapping between optional types
+			- added functionality to catch Exceptions when mapping between optional types
+			- added methods to extract values with alternatives from optionals
+		</PackageReleaseNotes>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<None Include="..\LICENSE">
+			<Pack>True</Pack>
+			<PackagePath></PackagePath>
+		</None>
+		<None Include="..\README.md">
+			<Pack>True</Pack>
+			<PackagePath>\</PackagePath>
+		</None>
+	</ItemGroup>
 
 </Project>

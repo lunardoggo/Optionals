@@ -6,6 +6,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LunarDoggo.Optionals", "Lun
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LunarDoggo.Optionals.Tests", "Lunardoggo.Optionals.Tests\LunarDoggo.Optionals.Tests.csproj", "{DBE45907-2FE1-47E3-9307-7D0636FFB366}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LunarDoggo.Optionals.Examples", "LunarDoggo.Optionals.Examples\LunarDoggo.Optionals.Examples.csproj", "{84342451-46DF-4C14-98B1-BCE6937A7C08}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Projektmappenelemente", "Projektmappenelemente", "{C9999E8A-8202-4688-934E-B63782033D76}"
+	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
+		license = license
+		README.md = README.md
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -20,6 +29,10 @@ Global
 		{DBE45907-2FE1-47E3-9307-7D0636FFB366}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DBE45907-2FE1-47E3-9307-7D0636FFB366}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DBE45907-2FE1-47E3-9307-7D0636FFB366}.Release|Any CPU.Build.0 = Release|Any CPU
+		{84342451-46DF-4C14-98B1-BCE6937A7C08}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{84342451-46DF-4C14-98B1-BCE6937A7C08}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{84342451-46DF-4C14-98B1-BCE6937A7C08}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{84342451-46DF-4C14-98B1-BCE6937A7C08}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
