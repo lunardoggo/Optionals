@@ -1,7 +1,7 @@
 LunarDoggo.Optionals
 ============
 ---
-[![License](https://img.shields.io/github/license/LunarDoggo/Optionals)](https://github.com/lunardoggo/Optionals/blob/main/license) [![Nuget](https://img.shields.io/nuget/vpre/LunarDoggo.Optionals)](https://www.nuget.org/packages/LunarDoggo.Optionals/) ![Nuget](https://img.shields.io/nuget/vpre/LunarDoggo.Optionals)
+[![License](https://img.shields.io/github/license/LunarDoggo/Optionals)](https://github.com/lunardoggo/Optionals/blob/main/license) [![Nuget](https://img.shields.io/nuget/vpre/LunarDoggo.Optionals)](https://www.nuget.org/packages/LunarDoggo.Optionals/) ![Nuget](https://img.shields.io/nuget/dt/LunarDoggo.Optionals)
 
 This library was inspired by a project at university where we had to implement an extension to Java optionals. C# provides an alternative to optionals with the null-conditional (`?`) and null-coalescing (`??`) operators, but there is no easy way to return error messages to calling methods by using these operators without throwing Exceptions or returning custom objects that can contain a value or an error message.
 
