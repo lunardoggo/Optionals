@@ -81,6 +81,7 @@ namespace LunarDoggo.Optionals
         /// <returns>Single optional of type <see cref="IEnumerable{T}"</returns>
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="ArgumentException"></exception>
+        [Obsolete("Use Optional.OfOptional<T>(IEnumerable<IOptional<T>> instead to save yourself some writing effort")]
         public static IOptional<IEnumerable<T>> OfOptionals<S, T>(IEnumerable<S> optionals) where S : IOptional<T>
         {
             if (optionals == null)
@@ -102,6 +103,40 @@ namespace LunarDoggo.Optionals
             if (withMessage.Length > 0)
             {
                 return Optional.OfMessage<IEnumerable<T>>(Optional.GetAggregatedMessage<S, T>(withMessage));
+            }
+
+            return Optional.OfValue(optionals.Select(_optional => _optional.Value));
+        }
+
+        /// <summary>
+        /// Converts the provided optionals of type <typeparamref name="T"/> into a single optional of type <see cref="IEnumerable{T}"/>
+        /// </summary>
+        /// <typeparam name="T">type of the values contained in the optionals</typeparam>
+        /// <param name="optionals">optionals to be mapped</param>
+        /// <returns>Single optional of type <see cref="IEnumerable{T}"</returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="ArgumentException"></exception>
+        public static IOptional<IEnumerable<T>> OfOptionals<T>(IEnumerable<IOptional<T>> optionals)
+        {
+            if (optionals == null)
+            {
+                throw new ArgumentNullException(Messages.FromCollectionNullOrEmpty);
+            }
+            if (!optionals.Any())
+            {
+                throw new ArgumentException(Messages.FromCollectionNullOrEmpty);
+            }
+
+            IOptional<T>[] withException = optionals.Where(_optional => _optional.HasException).ToArray();
+            if (withException.Length > 0)
+            {
+                return Optional.OfException<IEnumerable<T>>(new AggregatedException(withException.Select(_optional => _optional.Exception)), Optional.GetAggregatedMessage<IOptional<T>, T>(withException));
+            }
+
+            IOptional<T>[] withMessage = optionals.Where(_optional => _optional.HasMessage).ToArray();
+            if (withMessage.Length > 0)
+            {
+                return Optional.OfMessage<IEnumerable<T>>(Optional.GetAggregatedMessage<IOptional<T>, T>(withMessage));
             }
 
             return Optional.OfValue(optionals.Select(_optional => _optional.Value));
@@ -148,7 +183,7 @@ namespace LunarDoggo.Optionals
             {
                 throw new ArgumentNullException(Messages.ExtensionMethodTargetNull);
             }
-            if(action == null)
+            if (action == null)
             {
                 throw new ArgumentNullException(Messages.ApplyActionNull);
             }

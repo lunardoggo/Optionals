@@ -35,25 +35,25 @@
                 Optional.OfException<int>(new NullReferenceException("Something null"), "Some message")
             };
 
-            Assert.Throws<ArgumentNullException>(() => Optional.OfOptionals<IOptional<int>, int>(null));
-            Assert.Throws<ArgumentException>(() => Optional.OfOptionals<IOptional<int>, int>(new IOptional<int>[0]));
+            Assert.Throws<ArgumentNullException>(() => Optional.OfOptionals<int>(null));
+            Assert.Throws<ArgumentException>(() => Optional.OfOptionals<int>(new IOptional<int>[0]));
 
-            Assertions.AssertOptionalException(Optional.OfOptionals<IOptional<int>, int>(optionals.Where(_optional => _optional.HasException).ToArray()));
-            Assertions.AssertOptionalMessage(Optional.OfOptionals<IOptional<int>, int>(optionals.Where(_optional => _optional.HasMessage && !_optional.HasException).ToArray()));
-            Assertions.AssertOptionalValue(Optional.OfOptionals<IOptional<int>, int>(optionals.Where(_optional => _optional.HasValue).ToArray()));
+            Assertions.AssertOptionalException(Optional.OfOptionals<int>(optionals.Where(_optional => _optional.HasException).ToArray()));
+            Assertions.AssertOptionalMessage(Optional.OfOptionals<int>(optionals.Where(_optional => _optional.HasMessage && !_optional.HasException).ToArray()));
+            Assertions.AssertOptionalValue(Optional.OfOptionals<int>(optionals.Where(_optional => _optional.HasValue).ToArray()));
 
-            IOptional<IEnumerable<int>> withExceptions = Optional.OfOptionals<IOptional<int>, int>(optionals);
+            IOptional<IEnumerable<int>> withExceptions = Optional.OfOptionals<int>(optionals);
             Assertions.AssertOptionalException<IEnumerable<int>>(withExceptions);
             Assert.NotNull(withExceptions.Exception);
             Assert.IsType<AggregatedException>(withExceptions.Exception);
             Assert.Equal(2, ((AggregatedException)withExceptions.Exception).Exceptions.Length);
             Assert.Equal($"Some argument{Environment.NewLine}Some message", withExceptions.Message);
 
-            IOptional<IEnumerable<int>> withMessages = Optional.OfOptionals<IOptional<int>, int>(optionals.Where(_optional => !_optional.HasException).ToArray());
+            IOptional<IEnumerable<int>> withMessages = Optional.OfOptionals<int>(optionals.Where(_optional => !_optional.HasException).ToArray());
             Assertions.AssertOptionalMessage<IEnumerable<int>>(withMessages);
             Assert.Equal($"Some message 1{Environment.NewLine}Some message 2", withMessages.Message);
 
-            IOptional<IEnumerable<int>> withValues = Optional.OfOptionals<IOptional<int>, int>(optionals.Where(_optional => _optional.HasValue).ToArray());
+            IOptional<IEnumerable<int>> withValues = Optional.OfOptionals<int>(optionals.Where(_optional => _optional.HasValue).ToArray());
             Assertions.AssertOptionalValue(withValues);
             Assert.NotEmpty(withValues.Value);
             Assert.Equal(3, withValues.Value.Count());
