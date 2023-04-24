@@ -116,9 +116,14 @@ Method/Property | Description
 `IOptional<S> SafeMap(Func<T, S>)` | maps this optional to an optional of type `S`
 `IOptional<S> Map(Func<T, S>)` | maps this optional to an optional of type `S`
 `IOptional<T> Map(Action<T>)` | applies an `Action<T>` to the contained value
+`IOptional<T> IfHasException(Action<Exception>)` | the provided action is executed if the optional contains an exception
+`IOptional<T> IfHasMessage(Action<string>)` | the provided action is executed if the optional contains a message
+`IOptional<T> IfHasValue(Action<T>)` | the provided action is executed if the optional contains a value
 `string ToString(Func<T, string>)` | converts the contained value to a string if it is present, otherwise the contained message is returned
 `T OrElse(Func<T>)` | Returnes the contained value if it is present, otherwise the result of provided function returning an object of type `T` is returned
 `T OrElse(T)` | Returnes the contained value if it is present, otherwise the provided parameter of type `T` is returned
+
+**Note:** the methods **IfHasValue** and **Apply** functionally behave the same way, but **IfHasValue** is intended to call other code if a value is contained, whereas **Apply** is intended to be used to alter the contained value itself
 
 **Methods provided by the static class `Optional`:**
 Method | Description
