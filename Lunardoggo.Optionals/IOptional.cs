@@ -83,11 +83,45 @@ namespace LunarDoggo.Optionals
 
         /// <summary>
         /// Executes the provided <see cref="Action{T}"/> on the contained value
+        /// <br/><br/>
+        /// Functionally this method behaves the same way as <see cref="IfHasValue(Action{Exception})"/>, but semantically
+        /// this method should be used if you want to make alterations to the contained value; this of course only works
+        /// if the type of the contained value is a reference type
         /// </summary>
         /// <param name="action">Action to apply to the contained value</param>
         /// <returns>Reference to the same <see cref="IOptional{T}"/> on which <see cref="Apply(Action{T})"/> was called</returns>
         /// <exception cref="ArgumentNullException"></exception>
         IOptional<T> Apply(Action<T> action);
+
+        /// <summary>
+        /// Executes the provided <see cref="Action"/>&lt;<see cref="System.Exception"/>&gt; if this <see cref="IOptional{T}"/>
+        /// contains an exception
+        /// </summary>
+        /// <param name="action">Action to be executed if this optional contains an exception</param>
+        /// <returns>Reference to this optional</returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        IOptional<T> IfHasException(Action<Exception> action);
+
+        /// <summary>
+        /// Executes the provided <see cref="Action"/>&lt;<see cref="String"/>&gt; if this <see cref="IOptional{T}"/>
+        /// contains a message
+        /// </summary>
+        /// <param name="action">Action to be executed if this optional contains a message</param>
+        /// <returns>Reference to this optional</returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        IOptional<T> IfHasMessage(Action<string> action);
+
+        /// <summary>
+        /// Executes the provided <see cref="Action{T}"/> if this <see cref="IOptional{T}"/> contains a value
+        /// <br/><br/>
+        /// Functionally this method behaves the same way as <see cref="Apply(Action{T})"/>, but semantically
+        /// this method should be used if you want to call an <see cref="Action{T}"/> that does not alter the 
+        /// value contained in this <see cref="IOptional{T}"/>
+        /// </summary>
+        /// <param name="action">Action to be executed if this optional contains a value</param>
+        /// <returns>Reference to this optional</returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        IOptional<T> IfHasValue(Action<T> action);
 
         /// <summary>
         /// Converts the contained value into a string and returns the result. If no value is contained in this <see cref="IOptional{T}"/>,

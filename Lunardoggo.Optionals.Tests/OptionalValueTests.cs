@@ -79,5 +79,24 @@
             Assert.Equal(123, optional.OrElse(() => 321));
             Assert.Equal(123, optional.OrElse(321));
         }
+
+        [Fact]
+        public void TestIfHasMethods()
+        {
+            const int initialValue = 123;
+            IOptional<int> optional = Optional.OfValue(initialValue);
+            int value = -1;
+
+            Assertions.AssertOptionalValue(optional, initialValue);
+
+            optional.IfHasException(_ex => value = initialValue);
+            Assert.Equal(-1, value);
+
+            optional.IfHasMessage(_msg => value = initialValue);
+            Assert.Equal(-1, value);
+
+            optional.IfHasValue(_value => value = _value);
+            Assert.Equal(initialValue, value);
+        }
     }
 }
