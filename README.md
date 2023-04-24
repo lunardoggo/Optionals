@@ -123,7 +123,7 @@ Method/Property | Description
 `T OrElse(Func<T>)` | Returnes the contained value if it is present, otherwise the result of provided function returning an object of type `T` is returned
 `T OrElse(T)` | Returnes the contained value if it is present, otherwise the provided parameter of type `T` is returned
 
-**Note:** the methods **IfHasValue** and **Apply** functionally behave the same way, but **IfHasValue** is intended to call other code if a value is contained, whereas **Apply** is intended to be used to alter the contained value itself
+_**Note:**_ the methods **IfHasValue** and **Apply** functionally behave the same way, but **IfHasValue** is intended to call other code if a value is contained, whereas **Apply** is intended to be used to alter the contained value itself
 
 **Methods provided by the static class `Optional`:**
 Method | Description
@@ -132,7 +132,7 @@ Method | Description
 `IOptional<T> OfMessage<T>(string)` | Creates a new `IOptional<T>` containing the provided message
 `IOptional<T> OfException<T>(Exception)` | Creates a new `IOptional<T>` containing the provided `Exception`
 `IOptional<T> OfException<T>(Exception, string)` | Creates a new `IOptional<T>` containing the provided `Exception` and custom message
-`IOptional<IEnumerable<T>> OfOptionals<S, T>(IEnumerable<S>) where S : IOptional<T>` | Creates a new `IOptional<IEnumerable<T>>` containing the value of all provided `IOptional<T>` objects. If any of the provided objects contains an `Exception`, the resulting optional contains all `Exception`s, if any of the provided objects contains a message, all Messages will be concatenated to a single one and an optional containing this message will be returned instead
+`IOptional<IEnumerable<T>> OfOptionals<T>(IEnumerable<IOptional<T>>)` | Creates a new `IOptional<IEnumerable<T>>` containing the value of all provided `IOptional<T>` objects. If any of the provided objects contains an `Exception`, the resulting optional contains all `Exception`s, if any of the provided objects contains a message, all Messages will be concatenated to a single one and an optional containing this message will be returned instead
 
 **Extension methods provided by the static class `Optional`:**
 Extension method | Description
