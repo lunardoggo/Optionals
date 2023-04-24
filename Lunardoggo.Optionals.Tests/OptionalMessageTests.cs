@@ -84,6 +84,10 @@
             const int targetValue = 123;
             int value = -1;
 
+            Assert.Throws<ArgumentNullException>(() => optional.IfHasException(null));
+            Assert.Throws<ArgumentNullException>(() => optional.IfHasMessage(null));
+            Assert.Throws<ArgumentNullException>(() => optional.IfHasValue(null));
+
             Assertions.AssertOptionalValue(optional, targetValue);
 
             optional.IfHasValue(_value => value = _value);

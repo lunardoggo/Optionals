@@ -88,6 +88,10 @@
             IOptional<int> optional = Optional.OfMessage<int>("Some message");
             int value = -1;
 
+            Assert.Throws<ArgumentNullException>(() => optional.IfHasException(null));
+            Assert.Throws<ArgumentNullException>(() => optional.IfHasMessage(null));
+            Assert.Throws<ArgumentNullException>(() => optional.IfHasValue(null));
+
             Assertions.AssertOptionalValue(optional, targetValue);
 
             optional.IfHasException(_ex => value = targetValue);

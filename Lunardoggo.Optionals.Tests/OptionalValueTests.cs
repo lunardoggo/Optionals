@@ -87,6 +87,10 @@
             IOptional<int> optional = Optional.OfValue(initialValue);
             int value = -1;
 
+            Assert.Throws<ArgumentNullException>(() => optional.IfHasException(null));
+            Assert.Throws<ArgumentNullException>(() => optional.IfHasMessage(null));
+            Assert.Throws<ArgumentNullException>(() => optional.IfHasValue(null));
+
             Assertions.AssertOptionalValue(optional, initialValue);
 
             optional.IfHasException(_ex => value = initialValue);
