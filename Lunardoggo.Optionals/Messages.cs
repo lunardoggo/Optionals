@@ -23,5 +23,9 @@
         public const string CollectionNotCastable = "The collection contained in the optional cannot be cast to the target type, use Optional.Convert instead";
 
         public const string AlternativeValueFunctionNull = "The provided function for generating an alternative value must not be null";
+
+        public const string IfHasExceptionActionNull = "The provided action to be executed if an exception is contained in this optional must not be null";
+        public const string IfHasMessageActionNull = "The provided action to be executed if a message is contained in this optional must not be null";
+        public const string IfHasValueActionNull = "The provided action to be executed if a value is contained in this optional must not be null";
     }
 }

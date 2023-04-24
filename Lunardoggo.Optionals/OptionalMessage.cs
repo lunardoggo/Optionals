@@ -97,17 +97,33 @@ namespace LunarDoggo.Optionals
 
         public IOptional<T> IfHasException(Action<Exception> action)
         {
-            throw new NotImplementedException();
+            if (action == null)
+            {
+                throw new ArgumentNullException(Messages.IfHasExceptionActionNull);
+            }
+
+            return this;
         }
 
         public IOptional<T> IfHasMessage(Action<string> action)
         {
-            throw new NotImplementedException();
+            if (action == null)
+            {
+                throw new ArgumentNullException(Messages.IfHasMessageActionNull);
+            }
+
+            action.Invoke(this.message);
+            return this;
         }
 
         public IOptional<T> IfHasValue(Action<T> action)
         {
-            throw new NotImplementedException();
+            if (action == null)
+            {
+                throw new ArgumentNullException(Messages.IfHasValueActionNull);
+            }
+
+            return this;
         }
     }
 }
