@@ -131,17 +131,22 @@ namespace LunarDoggo.Optionals
 
         public IOptional<S> SafeFlatMap<S>(Func<T, IOptional<S>> mapper)
         {
-            throw new NotImplementedException();
+            return this.SafeFlatMap<S, Exception>(mapper);
         }
 
         public IOptional<S> SafeMap<S>(Func<T, S> mapper)
         {
-            throw new NotImplementedException();
+            return this.SafeMap<S, Exception>(mapper);
         }
 
         public T OrElseThrow(Exception ex)
         {
-            throw new NotImplementedException();
+            if(ex == null)
+            {
+                throw new ArgumentNullException(Messages.ThrowExceptionNull);
+            }
+
+            throw ex;
         }
     }
 }

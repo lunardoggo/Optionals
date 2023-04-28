@@ -15,6 +15,8 @@
         public const string ExceptionNull = "The Optional's Exception must not be null";
         public const string ExceptionAndMessageNullOrEmpty = "The Optional's message and Exception must not be null or empty";
 
+        public const string ThrowExceptionNull = "The Exception to be thrown must not be null";
+
         public const string FromCollectionNullOrEmpty = "The provided optional collection must not be null or empty";
 
         public const string ExtensionMethodTargetNull = "The provided optional must not be null";

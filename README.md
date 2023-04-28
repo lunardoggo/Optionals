@@ -111,15 +111,18 @@ Method/Property | Description
 `bool HasMessage { get; }` | Returns whether the optional contains a message
 `string Message { get; }` | Returns the contained message if it is present, otherwise a NotSupportedException is thrown
 `bool HasException { get; }` | Returns whether the optional contains an `Exception`
-`IOptional<S> SafeFlatMap(Func<T, IOptional<S>>)` | maps this optional to an optional of type `S`
+`IOptional<S> SafeFlatMap<S, V : Exception>(Func<T, IOptional<S>>)` | maps this optional to an optional of type `S`. Use this version if you want to catch a specific kind of exception
+`IOptional<S> SafeFlatMap(Func<T, IOptional<S>>)` | maps this optional to an optional of type `S`. Use this version if you want to catch any kind of exception
 `IOptional<S> FlatMap(Func<T, IOptional<S>>)` | maps this optional to an optional of type `S`
-`IOptional<S> SafeMap(Func<T, S>)` | maps this optional to an optional of type `S`
+`IOptional<S> SafeMap<S, V : Exception>(Func<T, S>)` | maps this optional to an optional of type `S`. Use this version if you want to catch a specific kind of exception
+`IOptional<S> SafeMap(Func<T, S>)` | maps this optional to an optional of type `S`. Use this version if you want to catch any kind of exception
 `IOptional<S> Map(Func<T, S>)` | maps this optional to an optional of type `S`
 `IOptional<T> Map(Action<T>)` | applies an `Action<T>` to the contained value
 `IOptional<T> IfHasException(Action<Exception>)` | the provided action is executed if the optional contains an exception
 `IOptional<T> IfHasMessage(Action<string>)` | the provided action is executed if the optional contains a message
 `IOptional<T> IfHasValue(Action<T>)` | the provided action is executed if the optional contains a value
 `string ToString(Func<T, string>)` | converts the contained value to a string if it is present, otherwise the contained message is returned
+`T OrElseThrow(Exception)` | Returnes the contained value if it is present, otherwise the provided exception is thrown
 `T OrElse(Func<T>)` | Returnes the contained value if it is present, otherwise the result of provided function returning an object of type `T` is returned
 `T OrElse(T)` | Returnes the contained value if it is present, otherwise the provided parameter of type `T` is returned
 
