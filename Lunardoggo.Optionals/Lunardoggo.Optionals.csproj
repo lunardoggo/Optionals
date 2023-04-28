@@ -27,6 +27,11 @@
 			- implemented API for mapping between optional types
 			- added functionality to catch Exceptions when mapping between optional types
 			- added methods to extract values with alternatives from optionals
+
+			This version includes alternatives to some methods that don't require you to provide as many generic parameters as the original ones at compile time. This change includes:
+			- IOptional.SafeFlatMap,
+			- IOptional.SafeMap,
+			- Optional.OfOptionals
 		</PackageReleaseNotes>
 	</PropertyGroup>
 
