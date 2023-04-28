@@ -51,6 +51,19 @@ namespace LunarDoggo.Optionals
         IOptional<S> SafeFlatMap<S, V>(Func<T, IOptional<S>> mapper) where V : Exception;
 
         /// <summary>
+        /// Maps this <see cref="IOptional{T}"/> to an <see cref="IOptional{T}">IOptional</see>&lt;<typeparamref name="S"/>&gt;. Additionally any ocurring Exceptions
+        /// are caught in the process
+        /// <br/><br/>
+        /// In contrast to <see cref="IOptional{T}.SafeMap{S, V}(Func{T, S})"/> the provided mapper must return an object of type <see cref="IOptional{T}">IOptional</see>&lt;<typeparamref name="S"/>&gt; instead of an object of type <typeparamref name="S"/>
+        /// </summary>
+        /// <typeparam name="S">Target Type</typeparam>
+        /// <typeparam name="V">Type of <see cref="System.Exception"/> to be caught</typeparam>
+        /// <param name="mapper">function that maps the current value into an <see cref="IOptional{T}">IOptional</see>&lt;<typeparamref name="S"/>&gt;</param>
+        /// <returns>Mapped <see cref="IOptional{T}">IOptional</see>&lt;<typeparamref name="S"/>&gt;</returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        IOptional<S> SafeFlatMap<S>(Func<T, IOptional<S>> mapper);
+
+        /// <summary>
         /// Maps this <see cref="IOptional{T}"/> to an <see cref="IOptional{T}">IOptional</see>&lt;<typeparamref name="S"/>&gt;
         /// <br/><br/>
         /// In contrast to <see cref="IOptional{T}.Map{S}(Func{T, S}))"/> the provided mapper must return an object of type <see cref="IOptional{T}">IOptional</see>&lt;<typeparamref name="S"/>&gt; instead of an object of type <typeparamref name="S"/>
@@ -71,6 +84,17 @@ namespace LunarDoggo.Optionals
         /// <returns>Mapped <see cref="IOptional{T}">IOptional</see>&lt;<typeparamref name="S"/>&gt;</returns>
         /// <exception cref="ArgumentNullException"></exception>
         IOptional<S> SafeMap<S, V>(Func<T, S> mapper) where V : Exception;
+
+        /// <summary>
+        /// Maps this <see cref="IOptional{T}"/> into an <see cref="IOptional{T}">IOptional</see>&lt;<typeparamref name="S"/>&gt;. Additionally any occurring Exceptions
+        /// are caught in the process
+        /// </summary>
+        /// <typeparam name="S">Target type</typeparam>
+        /// <typeparam name="V">Type of <see cref="System.Exception"/> to be caught</typeparam>
+        /// <param name="mapper">function that maps the current value into an object of type <typeparamref name="S"/></param>
+        /// <returns>Mapped <see cref="IOptional{T}">IOptional</see>&lt;<typeparamref name="S"/>&gt;</returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        IOptional<S> SafeMap<S>(Func<T, S> mapper);
 
         /// <summary>
         /// Maps this <see cref="IOptional{T}"/> into an <see cref="IOptional{T}">IOptional</see>&lt;<typeparamref name="S"/>&gt;
@@ -148,5 +172,14 @@ namespace LunarDoggo.Optionals
         /// <param name="value">alternative return value</param>
         /// <returns>the contained value if present, otherwise the provided <paramref name="value"/></returns>
         T OrElse(T value);
+
+        /// <summary>
+        /// If this <see cref="IOptional{T}"/> contains a value, the contained value is returned,
+        /// otherwise the provided <paramref name="value"/> is returned
+        /// </summary>
+        /// <param name="value">alternative return value</param>
+        /// <returns>the contained value if present, otherwise the provided <paramref name="value"/></returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        T OrElseThrow(Exception ex);
     }
 }

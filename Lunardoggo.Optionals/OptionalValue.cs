@@ -138,5 +138,20 @@ namespace LunarDoggo.Optionals
             action.Invoke(this.value);
             return this;
         }
+
+        public IOptional<S> SafeFlatMap<S>(Func<T, IOptional<S>> mapper)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IOptional<S> SafeMap<S>(Func<T, S> mapper)
+        {
+            throw new NotImplementedException();
+        }
+
+        public T OrElseThrow(Exception ex)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

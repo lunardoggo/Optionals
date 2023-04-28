@@ -21,6 +21,9 @@
             Assertions.AssertOptionalMessage(mapped, message);
             Assert.Throws<ArgumentNullException>(() => optional.Map<string>(null));
             Assert.Throws<ArgumentNullException>(() => optional.SafeMap<string, Exception>(null));
+
+            Assertions.AssertOptionalMessage(optional.SafeMap<string, AggregateException>(_str => _str));
+            Assertions.AssertOptionalMessage(optional.SafeMap(_str => _str));
         }
 
         [Fact]
@@ -33,6 +36,9 @@
             Assertions.AssertOptionalMessage(mapped, message);
             Assert.Throws<ArgumentNullException>(() => optional.FlatMap<string>(null));
             Assert.Throws<ArgumentNullException>(() => optional.SafeFlatMap<string, Exception>(null));
+
+            Assertions.AssertOptionalMessage(optional.SafeFlatMap<int, AggregateException>(_i => Optional.OfValue(_i)));
+            Assertions.AssertOptionalMessage(optional.SafeFlatMap(_i => Optional.OfValue(_i)));
         }
 
         [Fact]
@@ -68,6 +74,7 @@
             Assertions.AssertOptionalMessage(optional);
             Assert.Equal(321, optional.OrElse(() => 321));
             Assert.Equal(321, optional.OrElse(321));
+            Assert.Throws<ArgumentException>(() => optional.OrElseThrow(new ArgumentException("Exception")));
         }
 
         [Fact]

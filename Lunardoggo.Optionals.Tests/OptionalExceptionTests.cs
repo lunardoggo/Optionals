@@ -25,6 +25,9 @@
             Assertions.AssertOptionalException(mapped, exception.GetType());
             Assert.Throws<ArgumentNullException>(() => optional.Map<string>(null));
             Assert.Throws<ArgumentNullException>(() => optional.SafeMap<string, Exception>(null));
+
+            Assertions.AssertOptionalException(optional.SafeMap<string, AggregateException>(_str => _str));
+            Assertions.AssertOptionalException(optional.SafeMap(_str => _str));
         }
 
         [Fact]
@@ -37,6 +40,9 @@
             Assertions.AssertOptionalException(mapped, exception.GetType());
             Assert.Throws<ArgumentNullException>(() => optional.FlatMap<string>(null));
             Assert.Throws<ArgumentNullException>(() => optional.SafeFlatMap<string, Exception>(null));
+
+            Assertions.AssertOptionalException(optional.SafeFlatMap<int, AggregateException>(_i => Optional.OfValue(_i)));
+            Assertions.AssertOptionalException(optional.SafeFlatMap(_i => Optional.OfValue(_i)));
         }
 
         [Fact]
@@ -77,6 +83,7 @@
             Assertions.AssertOptionalException(optional);
             Assert.Equal(321, optional.OrElse(() => 321));
             Assert.Equal(321, optional.OrElse(321));
+            Assert.Throws<ArgumentException>(() => optional.OrElseThrow(new ArgumentException("Exception")));
         }
 
         [Fact]
